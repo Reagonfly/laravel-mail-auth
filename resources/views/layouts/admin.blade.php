@@ -7,6 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset('img/stylishB.webp') }}" type="image/x-icon">
 
     <title>{{ config('app.name', 'BoolPress') }}</title>
 
