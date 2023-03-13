@@ -11,6 +11,14 @@
             </div>
         </div>
         <div class="col-12">
+            <div class="d-flex justify-content-center">
+                @if ($post->cover_img)
+                <img src="{{ asset('storage/' .$post->cover_img) }}" alt="{{ $post->title }}" class="img-fluid w-25 my-3">
+                @else
+                <p>No image was found</p>
+                @endif
+
+            </div>
             <p>
                 <strong class="text-danger">Slug: </strong> {{ $post->slug }}
             </p>
@@ -18,7 +26,12 @@
                 <strong>Author: </strong> {{ $post->author }}
             </p>
             <p>
-                <strong>Category: </strong>{{ $post->category ? $post->category->name : 'Without Category' }}
+                <strong>Category: </strong>
+                @if ($post->category)
+                {{ $post->category->name }}
+                @else
+                No categories related to this post.
+                @endif
             </p>
             <p>
                 <strong>Tags: </strong>

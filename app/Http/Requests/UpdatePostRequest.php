@@ -30,7 +30,8 @@ class UpdatePostRequest extends FormRequest
             'author'        => ['nullable'],
             'category_id'   => ['nullable', 'exists:categories,id'],
             'content'       => ['nullable'],
-            'tags'          => ['exists:tags,id']
+            'tags'          => ['exists:tags,id'],
+            'cover_img'     => ['nullable', 'image', 'max:250']
         ];
     }
 
@@ -45,7 +46,9 @@ class UpdatePostRequest extends FormRequest
             'title.requied'         => 'A Title is Requied to Procede',
             'title.unique'          => 'A Post With this Title is already IN MEMORY',
             'title.max'             => 'Post cannot Excede :max Digits',
-            'category_id.exists'    => 'You Have to select a valid Category'
+            'category_id.exists'    => 'You Have to select a valid Category',
+            'cover_img.image'       => 'Not a valid Image',
+            'cover_img.max'         => 'Image path exceed max characters'
         ];
     }
 }

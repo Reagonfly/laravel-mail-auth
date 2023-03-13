@@ -23,6 +23,7 @@
                     <th> Id </th>
                     <th> Title </th>
                     <th> Slug </th>
+                    <th> Author </th>
                     <th>Category</th>
                     <th> Action </th>
                 </thead>
@@ -32,7 +33,18 @@
                         <th class="text-success"> {{ $post->id }} </th>
                         <th> {{$post->title}} </th>
                         <th> {{$post->slug}} </th>
-                        <th>{{$post->category['name']}}</th>
+                        <th>@if ($post->author)
+                            {{ $post->author }}
+                            @else
+                            No Author Found.
+                            @endif
+                        </th>
+                        <th>@if ($post->category)
+                            {{ $post->category->name }}
+                            @else
+                            No Category related to this post.
+                            @endif
+                        </th>
                         <th>
                             <a href="{{ route('admin.posts.show', $post->slug) }}" title="View Post" class="btn btn-sm btn-success">
                                 <i class="fa-solid fa-scroll"></i>

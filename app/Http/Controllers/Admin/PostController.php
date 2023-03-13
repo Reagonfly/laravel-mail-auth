@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 
-use App\Models\Post;
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Tag;
 
 class PostController extends Controller
@@ -61,6 +63,13 @@ class PostController extends Controller
         $form_data['slug'] = $slug;
 
         $newPost = new Post();
+
+        if ($request->has('cover_img')) {
+            $path = Storage::disk('public')->put('post_images', $request->cover_img);
+
+            $form_data['cover_img'] = $path;
+        }
+
         $newPost->fill($form_data);
 
         $newPost->save();
@@ -118,6 +127,16 @@ class PostController extends Controller
         $form_data['slug'] = $slug;
 
         $form_data['excerpt'] = $excerpt;
+
+        if ($request->has('cover_img')) {
+            if ($post->cover_img) {
+                Storage::delete($post->cover_img);
+            }
+
+            $path = Storage::disk('public')->put('post_images', $request->cover_img);
+
+            $form_data['cover_img'] = $path;
+        }
 
         $post->update($form_data);
 

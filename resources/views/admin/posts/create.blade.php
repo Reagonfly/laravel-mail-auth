@@ -2,8 +2,8 @@
 @section('content')
 <div class="container">
     <div class="row d-flex">
-        <div class="col-12">
-            <h2>Add New Post</h2>
+        <div class="col-12 d-flex justify-content-center">
+            <h2 class="my-4">Add New Post</h2>
         </div>
         @if($errors->any())
         <div class="alert alert-danger">
@@ -15,7 +15,7 @@
         </div>
         @endif
         <div class="col-12">
-            <form action="{{ route('admin.posts.store') }}" method="POST">
+            <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group my-3">
                     <label for="control-label">
@@ -24,6 +24,13 @@
                     <input type="text" class="form-control" placeholder="Title" id="title" name="title">
                     @error('title')
                     <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group my-3">
+                    <label class="control-label">Cover</label>
+                    <input type="file" name="cover_img" id="cover_img" class="form-control @error('cover_img') is-invalid @enderror">
+                    @error('cover_img')
+                    <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group my-3">
@@ -40,7 +47,7 @@
                     <select class="form-control" name="category_id" id="category_id">
                         <option value="">Select A Category</option>
                         @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ $category->id == old('category_id', $post->category_id) ? 'selected' : '' }}->{{ $category->name }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -64,7 +71,7 @@
                     </label>
                     <textarea class="form-control" placeholder="Content" id="content" name="content"></textarea>
                 </div>
-                <div class="form-group my-3">
+                <div class="form-group my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-sm btn-secondary">
                         Save Post
                     </button>
