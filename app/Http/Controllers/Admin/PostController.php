@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 
 use App\Models\Category;
+use App\Models\Lead;
+use App\Mail\NewContact;
 use App\Models\Post;
 use App\Models\Tag;
 
@@ -78,6 +81,16 @@ class PostController extends Controller
 
             $newPost->tags()->attach($request->tags);
         }
+
+        $new_lead = new Lead();
+        $new_lead->title = $form_data['title'];
+        $new_lead->slug = $form_data['slug'];
+        $new_lead->author = $form_data['author'];
+        $new_lead->content = $form_data['content'];
+
+        $new_lead->save();
+
+        Mail::to('info@boolpress.don')->send(new NewContact($new_lead));
 
         return redirect()->route('admin.posts.index')->with('message', 'New Post Created Correctly');
     }
